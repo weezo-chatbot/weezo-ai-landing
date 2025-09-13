@@ -31,6 +31,7 @@ function NetworkBackground() {
     }
 
     function draw() {
+      if (ctx) {
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p) => {
@@ -49,6 +50,7 @@ function NetworkBackground() {
         ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
         ctx.fill();
       });
+    
 
       for (let i = 0; i < numParticles; i++) {
         for (let j = i + 1; j < numParticles; j++) {
@@ -76,7 +78,7 @@ function NetworkBackground() {
           }
         }
       }
-
+    }
       requestAnimationFrame(draw);
     }
     draw();
