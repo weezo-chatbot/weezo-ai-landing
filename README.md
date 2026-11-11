@@ -1,34 +1,52 @@
 # Weezo AI Landing Page
 
-A responsive marketing website for **Weezo AI**, showcasing its AI-powered chatbot and Dataset-as-a-Service offering. The site introduces the product, demonstrates a scripted chatbot comparison, presents sample analytics and customer insights, and lets visitors request a product demo.
+The **Weezo AI** landing page introduces the product's Dataset-as-a-Service proposition and its use in building more useful, domain-aware customer-support chatbots. It is a responsive, animated Next.js website with a scripted chatbot comparison, illustrative analytics, product and workflow sections, industry examples, a testimonial carousel, and a demo-request form.
 
-## Features
+> **Repository scope:** This repository contains the marketing website and its demo-request email endpoint. It does not contain a production chatbot service, model-training pipeline, dataset-processing platform, customer analytics backend, or integrations with the systems described in the website's product copy.
 
-- **Marketing landing page** with animated hero section and responsive navigation.
-- **Interactive chatbot comparison** showing a traditional rule-based flow alongside a Weezo AI conversation. The conversations are scripted examples, not a live AI integration.
-- **Analytics dashboard previews** with accuracy and customer-satisfaction charts using static sample data.
-- **Customer insights** highlighting sentiment tracking, response-time analysis, and FAQ-gap detection.
-- **Product features and workflow** covering domain-specific datasets, data preparation, annotation, model validation, deployment, and monitoring.
-- **Industry coverage** for banking and fintech, government, customer service, telecommunications, e-commerce, and sports betting.
-- **Testimonials carousel** and a demo-request call to action.
-- **Email notifications** for demo requests through a Next.js API route and Nodemailer.
+## What the website includes
 
-## Tech Stack
+- **Landing page and navigation** — animated hero section, responsive navigation, and demo calls to action.
+- **Chatbot comparison** — two side-by-side conversations that illustrate a rule-based flow and a Weezo-style assistant.
+- **Analytics preview** — accuracy and customer-satisfaction charts rendered with Recharts.
+- **Customer insights** — content describing sentiment tracking, response-time analysis, and FAQ-gap detection.
+- **Product and workflow sections** — feature highlights and a five-step dataset workflow: collect, clean and normalize, label and annotate, train and validate, then deploy and monitor.
+- **Industry examples** — banking and fintech, government, customer service, telecommunications, e-commerce, and sports betting.
+- **Testimonials** — a carousel of hard-coded quote and attribution entries.
+- **Demo requests** — a form that sends an email through the Next.js contact API route and Nodemailer.
 
-- [Next.js 15](https://nextjs.org/) (App Router)
-- [React 19](https://react.dev/) and [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS 4](https://tailwindcss.com/)
-- [Framer Motion](https://www.framer.com/motion/) for animations
-- [Recharts](https://recharts.org/) for charts
-- [Lucide React](https://lucide.dev/) for icons
-- [Nodemailer](https://nodemailer.com/) for demo-request emails
+### Important: illustrative content and public claims
 
-## Getting Started
+Several elements are demonstrations rather than live product functionality:
+
+- The chatbot conversations are predefined in the frontend. They do not call a live model or backend.
+- The analytics charts use values hard-coded in the component. They are not connected to production telemetry or a live analytics service.
+- The insights and dataset workflow sections are explanatory website content; this repository does not implement the underlying data or model operations.
+- The testimonial carousel contains hard-coded quotes, names, and organization names. Verify that each endorsement is genuine and that publication has been authorized.
+- Performance figures and product statements (including security, accuracy, and continuous-improvement claims) should be substantiated and approved before being presented as factual customer or product claims.
+
+## Technology stack
+
+| Area | Technology |
+| --- | --- |
+| Framework | [Next.js 15](https://nextjs.org/) App Router |
+| UI | [React 19](https://react.dev/) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com/) |
+| Animation | [Framer Motion](https://www.framer.com/motion/) |
+| Charts | [Recharts](https://recharts.org/) |
+| Icons | [Lucide React](https://lucide.dev/) |
+| UI primitives | Radix UI Slot and locally maintained components |
+| Email delivery | [Nodemailer](https://nodemailer.com/) |
+
+Additional libraries support intersection-observer behavior, typewriter text, and shared styling utilities. Exact dependency versions are recorded in `package.json` and `package-lock.json`.
+
+## Getting started
 
 ### Prerequisites
 
-- Node.js **18.18 or later** (Node.js 20 LTS is recommended)
-- npm
+- Node.js **18.18.0 or later**. Use a currently supported Node.js LTS release for development and deployment.
+- npm (the repository includes `package-lock.json`).
 
 ### 1. Clone the repository
 
@@ -39,11 +57,13 @@ cd weezo-ai-landing
 
 ### 2. Install dependencies
 
+Use `npm ci` for an installation that follows the committed lockfile:
+
 ```bash
-npm install
+npm ci
 ```
 
-### 3. Configure environment variables
+### 3. Configure the demo-request email
 
 Create a `.env.local` file in the project root:
 
@@ -53,17 +73,17 @@ SMTP_PASS=your-gmail-app-password
 CONTACT_EMAIL=destination@example.com
 ```
 
-These variables are used by `app/api/contact/route.ts`:
-
-| Variable | Description |
+| Variable | Purpose |
 | --- | --- |
-| `SMTP_USER` | Gmail account used by Nodemailer to send demo notifications. |
-| `SMTP_PASS` | Gmail app password (or the SMTP credential configured for your mail account). |
-| `CONTACT_EMAIL` | Inbox that should receive demo requests. |
+| `SMTP_USER` | Gmail account used as the sender. |
+| `SMTP_PASS` | Gmail App Password or the applicable Gmail SMTP credential. |
+| `CONTACT_EMAIL` | Email address that should receive demo requests. |
 
-For Gmail, use an **App Password** where supported. Do not use your normal account password, commit `.env.local`, or expose SMTP credentials in client-side code. The repository's `.gitignore` excludes environment files.
+The current transporter configuration in `app/api/contact/route.ts` explicitly uses Nodemailer's **Gmail** service. Changing these environment values does not switch the integration to another email provider; supporting another provider requires changing the transporter configuration.
 
-The landing page itself can run without these values, but submitting the demo form requires valid mail configuration.
+For Gmail, use an App Password where supported rather than your normal account password. Keep credentials server-side: do not add them to client-side code or commit `.env.local`. The repository's `.gitignore` excludes environment files.
+
+The landing page can be viewed without email credentials. The demo-request submission will not work until valid sender credentials and a recipient address are configured. There is currently no `.env.example` file, so use the variable names shown above.
 
 ### 4. Start the development server
 
@@ -71,79 +91,87 @@ The landing page itself can run without these values, but submitting the demo fo
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Available Scripts
+## Available scripts
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the local Next.js development server. |
-| `npm run build` | Create an optimized production build. |
-| `npm run start` | Start the production server (run after `npm run build`). |
+| `npm run dev` | Start the Next.js development server. |
 | `npm run lint` | Run ESLint. |
+| `npm run build` | Create an optimized production build. |
+| `npm run start` | Start the production server after a successful build. |
 
-## Project Structure
+Run lint separately: `next.config.ts` currently sets `eslint.ignoreDuringBuilds` to `true`, so a production build does not run ESLint. There is no automated test script configured in `package.json` at present.
+
+## Demo-request flow
+
+1. A visitor opens the **Book a Demo** form in the call-to-action section.
+2. The form sends the visitor's name, email, company, and message to `POST /api/contact`.
+3. The route uses Nodemailer and the environment variables above to send an email to `CONTACT_EMAIL`.
+4. The frontend displays a success or error message based on the API response.
+
+The current flow sends an email; it does not save submissions to a database, CRM, or mailing list.
+
+### Production-readiness note
+
+The contact route is a minimal example, not a complete hardened public form endpoint. In its current implementation, submitted values are interpolated into an HTML email template without HTML escaping, and the route does not perform server-side schema validation or rate limiting. Before exposing the form to untrusted public traffic, add server-side validation, safe HTML encoding, abuse protection, and suitable operational monitoring.
+
+## Project structure
 
 ```text
 .
 ├── app/
 │   ├── api/
 │   │   └── contact/
-│   │       └── route.ts       # Handles demo-request email submissions
+│   │       └── route.ts       # Demo-request email endpoint
+│   ├── favicon.ico
 │   ├── globals.css            # Global styles and Tailwind theme
-│   ├── layout.tsx             # Root layout and page metadata
+│   ├── layout.tsx             # Root layout, fonts, and metadata
 │   └── page.tsx               # Landing page composition
 ├── components/
-│   ├── ui/                    # Reusable UI components
-│   ├── Hero.tsx               # Hero section, animated background and navigation
-│   ├── ChatDemo.tsx            # Scripted chatbot comparison
-│   ├── AnalyticsPanel.tsx      # Sample performance charts
-│   ├── InsightsPanel.tsx       # Customer-insight highlights
-│   ├── Features.tsx            # Product features
-│   ├── HowItWorks.tsx          # Dataset workflow
-│   ├── Industries.tsx          # Industries served
-│   ├── Testimonials.tsx        # Testimonial carousel
-│   ├── CTASection.tsx           # Demo-request form
-│   ├── Footer.tsx               # Contact details and footer
-│   └── BackToTop.tsx            # Scroll-to-top control
-├── lib/                        # Shared utilities
-├── public/                     # Static assets
+│   ├── ui/
+│   │   ├── button.tsx         # Shared button primitive
+│   │   └── card.tsx           # Shared card primitives
+│   ├── AnalyticsPanel.tsx     # Illustrative performance charts
+│   ├── BackToTop.tsx          # Scroll-to-top control
+│   ├── CTASection.tsx         # Demo-request form
+│   ├── ChatDemo.tsx           # Scripted chatbot comparison
+│   ├── Features.tsx           # Product feature content
+│   ├── Footer.tsx             # Contact details and footer
+│   ├── Hero.tsx               # Hero, navigation, and animated background
+│   ├── HowItWorks.tsx         # Dataset workflow presentation
+│   ├── Industries.tsx         # Industry examples
+│   ├── InsightsPanel.tsx      # Customer-insight content
+│   └── Testimonials.tsx       # Hard-coded testimonial carousel
+├── lib/
+│   └── utils.ts               # Shared utilities
+├── public/                    # Static assets
+├── eslint.config.mjs
 ├── next.config.ts
+├── package-lock.json
+├── package.json
 ├── postcss.config.mjs
-├── tsconfig.json
-└── package.json
+└── tsconfig.json
 ```
-
-## Demo Request Flow
-
-1. A visitor opens the **Book a Demo** form in the call-to-action section.
-2. The form submits the visitor's name, email, company, and message to `POST /api/contact`.
-3. The API route uses Nodemailer and the SMTP environment variables to send an email to `CONTACT_EMAIL`.
-4. The page displays a success or error message based on the API response.
-
-Make sure the SMTP settings are configured before testing this flow.
 
 ## Deployment
 
-The project can be deployed to any platform that supports Next.js, such as [Vercel](https://vercel.com/).
+The site can be deployed to a platform that supports the Next.js version used by this repository, such as [Vercel](https://vercel.com/).
 
 For a typical deployment:
 
-1. Push the repository to your Git provider and import it into your hosting platform.
-2. Set the environment variables listed above in the hosting platform's project settings.
-3. Build with `npm run build` (the platform's default Next.js build command).
-4. Deploy and test the demo-request form using the production environment variables.
+1. Push the repository to your Git provider and import it into the hosting platform.
+2. Configure `SMTP_USER`, `SMTP_PASS`, and `CONTACT_EMAIL` in the hosting platform's server-side environment settings.
+3. Build using `npm run build`.
+4. Deploy the site and test the demo-request form using the production email configuration.
 
-## Notes
-
-- The chatbot conversations and analytics shown on the landing page are illustrative, static frontend demonstrations. They are not connected to a production chatbot, live analytics service, or model-training pipeline in this repository.
-- The testimonials and performance figures are page content/sample data. Confirm that they are approved and representative before using them as public customer claims.
-- Never commit secrets or real customer information.
+Do not expose SMTP credentials through public environment variables. Verify the form's production protections before directing real visitors to it.
 
 ## Contributing
 
-Contributions are welcome. For substantial changes, please open an issue first to discuss the proposed update. When submitting a pull request, include a clear description of the change and any relevant screenshots or testing notes.
+Contributions are welcome. For substantial changes, open an issue first to discuss the proposal. Pull requests should include a clear summary of the change and relevant testing notes or screenshots.
 
 ## License
 
-No license file was identified in the repository at the time this README was prepared. Unless a license is added, do not assume that the code is available for reuse or redistribution.
+No license file is currently present in the repository. Unless a license is added, do not assume that the code is available for reuse, modification, or redistribution.
